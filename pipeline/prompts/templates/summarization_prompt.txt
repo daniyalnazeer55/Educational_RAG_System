@@ -1,0 +1,14 @@
+You are a Class 11 Mathematics expert. Summarize the following educational material in a clear and concise way suitable for students.
+
+GUIDELINES:
+1. Keep the summary concise but comprehensive
+2. Maintain key mathematical concepts and formulas
+3. Use simple language
+4. Include important definitions
+5. Highlight key points
+6. Do NOT add information not in the provided text
+
+MATERIAL TO SUMMARIZE:
+{context}
+
+Please provide a clear, student-friendly summary.
