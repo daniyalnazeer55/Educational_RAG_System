@@ -1,31 +1,31 @@
 # Class 11 Mathematics RAG System
 
-A production-ready Retrieval-Augmented Generation (RAG) system for answering questions about Class 11 Mathematics education materials.
+A Retrieval-Augmented Generation (RAG) system for answering questions about Grade 11 Mathematics education content.
 
 ## Project Overview
 
 This RAG system combines:
 - Vector-based semantic search using embeddings
-- Advanced language model responses
+- Language model responses
 - Automatic API key fallback mechanism
 - Multi-language query support (English, Urdu, Roman Urdu)
-- Hallucination prevention
+- Maximum hallucination prevention
 - Source attribution
-- Response grounding in educational materials
+- Response from knowledge base
 
 ## Features
 
-✓ Semantic search using BAAI/bge-small-en-v1.5 embeddings
-✓ Advanced LLM responses using Google Gemini
-✓ Automatic API key rotation (5 key fallback)
-✓ ChromaDB vector database for fast retrieval
-✓ Multi-language query support (English, Urdu, Roman Urdu)
-✓ Response grounding to prevent hallucinations
-✓ Source citation with metadata
-✓ FastAPI REST server with Swagger documentation
-✓ Interactive terminal CLI
-✓ Logging and error handling
-✓ Caching for embeddings and responses
+- Semantic search using BAAI/bge-large-en-v1.5 embeddings
+- Advanced LLM responses using Google Gemini
+- Automatic API key rotation (4 key fallback)
+- ChromaDB vector database for fast retrieval
+- Multi-language query support (English, Urdu, Roman Urdu)
+- Response grounding to prevent hallucinations
+- Source citation with metadata
+- FastAPI REST server with Swagger documentation
+- Interactive terminal CLI
+- Logging and error handling
+- Caching for embeddings and responses
 
 ## Folder Structure
 
@@ -111,7 +111,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### Step 2: Setup Environment Variables
+### Step 2: Set Up Environment Variables
 
 Create a `.env` file in the project root:
 
@@ -129,7 +129,6 @@ GEMINI_API_KEY_1=your_first_api_key
 GEMINI_API_KEY_2=your_second_api_key
 GEMINI_API_KEY_3=your_third_api_key
 GEMINI_API_KEY_4=your_fourth_api_key
-GEMINI_API_KEY_5=your_fifth_api_key
 ```
 
 ### Step 3: Install Dependencies
@@ -148,7 +147,7 @@ python -m spacy download en_core_web_sm
 1. Visit: https://aistudio.google.com/apikey
 2. Create a new API project
 3. Generate API keys
-4. Add keys to `.env` file (minimum 5 recommended)
+4. Add keys to the `.env` file (minimum 5 recommended)
 
 The system will automatically rotate between keys if one hits rate limits.
 
@@ -191,7 +190,7 @@ Open your browser to `http://localhost:8000/docs`
 **POST /api/v1/ask** - Ask a single question
 ```json
 {
-  "query": "What is Newton's Second Law?",
+  "query": "What is a Sequence? Or Solve Example #some_number from Chapter #some_number",
   "language": "en",
   "top_k": 5
 }
@@ -248,13 +247,13 @@ This may take several minutes depending on document size.
 ### Chunk Configuration
 Edit `config/settings.py`:
 ```python
-CHUNK_SIZE = 1000      # Characters per chunk
-CHUNK_OVERLAP = 200    # Overlap between chunks
+CHUNK_SIZE = 500      # Characters per chunk
+CHUNK_OVERLAP = 70    # Overlap between chunks
 ```
 
 ### Retrieval Configuration
 ```python
-TOP_K_RESULTS = 5               # Number of results to retrieve
+TOP_K_RESULTS = 3               # Number of results to retrieve
 SIMILARITY_THRESHOLD = 0.3      # Minimum similarity score
 ```
 
@@ -264,25 +263,16 @@ Edit `config/model_config.py` to change:
 - Embedding model
 - Model selection strategy for different tasks
 
-## Supported Languages
-
-- **English**: Full support
-- **Urdu**: Full support (Urdu script)
-- **Roman Urdu**: Full support (Romanized Urdu script)
-
-The system automatically detects the query language and responds in the same language.
-
 ## Selected Models
 
 ### LLM Models
-- **Primary**: Google Gemini 1.5 Flash (fast, efficient)
-- **Fallback**: Google Gemini 1.5 Pro (reasoning, complex tasks)
+- **Primary**: Google Gemini 3.5 Flash (fast, efficient)
+- **Fallback**: Other Google Gemini Models
 
 ### Embedding Model
-- **Model**: BAAI/bge-small-en-v1.5
-- **Dimension**: 384
-- **Speed**: Very Fast
-- **Accuracy**: Good (Suitable for educational content)
+- **Model**: BAAI/bge-large-en-v1.5
+- **Dimension**: 1028
+
 
 ## Prompting Strategy
 
@@ -293,13 +283,6 @@ Each task has a dedicated prompt template:
 - Translation (`translation_prompt.txt`)
 - Metadata Extraction (`metadata_prompt.txt`)
 
-### Key Principles
-1. Ground all answers in retrieved context
-2. Cite sources explicitly
-3. Prevent hallucination with explicit instructions
-4. Use clear, educational language
-5. Maintain mathematical accuracy
-
 ## Technologies Used
 
 - **Framework**: FastAPI
@@ -309,24 +292,7 @@ Each task has a dedicated prompt template:
 - **Web Server**: Uvicorn
 - **Text Processing**: NLTK, spaCy
 - **Caching**: Pickle-based file caching
-
-## Future Improvements
-
-Potential enhancements:
-
-1. Hybrid Search (Dense + BM25 keyword search)
-2. Reranking for improved retrieval accuracy
-3. Query Rewriting for complex queries
-4. Metadata Filtering (by chapter, book type)
-5. Enhanced Source Citations with exact page numbers
-6. Streaming API Responses
-7. FAQ Caching
-8. Dynamic Model Selection based on query complexity
-9. Configurable Chunk Size and Overlap
-10. Automatic Vector Database Updates
-11. Performance Optimization (async processing)
-12. Enhanced UI with Chat History
-
+- 
 ## Logging
 
 Logs are stored in the `logs/` directory:
@@ -343,7 +309,7 @@ Logs are stored in the `logs/` directory:
 ## Troubleshooting
 
 ### Issue: "No API keys found"
-**Solution**: Ensure `.env` file exists and contains API keys
+**Solution**: Ensure the `.env` file exists and contains API keys
 
 ### Issue: "Empty database"
 **Solution**: 
@@ -367,26 +333,8 @@ ls data/guides/
 - Verify API key quotas haven't been exceeded
 - Check retrieved context relevance
 
-## Performance Benchmarks
-
-Typical response times (on modern hardware):
-- Query Processing: 1-3 seconds
-- Document Retrieval: 0.2-0.5 seconds
-- Response Generation: 0.8-2 seconds
-
 Database:
-- ~1000-2000 documents indexed
-- Fast retrieval (<500ms)
-- Efficient embedding caching
-
-## Security
-
-⚠️ IMPORTANT:
-- Never commit `.env` file to Git
-- Never share API keys
-- Always use HTTPS in production
-- Validate all user inputs
-- Keep dependencies updated
+- ~2392 documents indexed
 
 ## Contributing
 
@@ -395,19 +343,7 @@ This is an educational RAG system for Class 11 Mathematics.
 ## Support
 
 For issues or questions:
-1. Check the logs in `logs/` directory
-2. Verify configuration in `config/`
+1. Check the logs in the `logs/` directory
+2. Verify configuration in the `config/`
 3. Test with terminal CLI (`app.py`)
 4. Check FastAPI docs at `/docs`
-
-## License
-
-Educational Use Only
-
-## Version History
-
-**v1.0.0** (Current)
-- Initial release
-- Multi-language support
-- API key fallback mechanism
-- Both CLI and API interfaces
